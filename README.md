@@ -1,4 +1,4 @@
-# SkyLink Airways - Airline Reservation and Management System
+# AirConnect PRO
 
 A comprehensive database system for managing airline operations, built using Python, SQLite, and MongoDB.
 
