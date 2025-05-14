@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Flights - SkyLink Airways{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2>Search Flights</h2>
+        <form method="POST" action="/flights/search" class="row g-3">
+            <div class="col-md-3">
+                <label for="departure" class="form-label">From</label>
+                <input type="text" class="form-control" id="departure" name="departure_airport" required>
+            </div>
+            <div class="col-md-3">
+                <label for="arrival" class="form-label">To</label>
+                <input type="text" class="form-control" id="arrival" name="arrival_airport" required>
+            </div>
+            <div class="col-md-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary d-block w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h2>Available Flights</h2>
+        {% if flights %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Flight Number</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Available Seats</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights %}
+                    <tr>
+                        <td>{{ flight.flight_number }}</td>
+                        <td>{{ flight.departure_airport.code }}</td>
+                        <td>{{ flight.arrival_airport.code }}</td>
+                        <td>{{ flight.departure_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ flight.arrival_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ flight.available_seats }}</td>
+                        <td>${{ "%.2f"|format(flight.base_price) }}</td>
+                        <td>
+                            <a href="/bookings/create/{{ flight.id }}" class="btn btn-sm btn-primary">Book Now</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No flights found matching your criteria.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
